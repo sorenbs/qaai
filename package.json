@@ -1,0 +1,12 @@
+{
+    "name": "QAAI",
+    "private": "true",
+    "type": "module",
+    "workspaces": [
+      "packages/agent",
+      "packages/web"
+    ],
+    "scripts": {
+      "clean": "rm -rf node_modules packages/agent/node_modules packages/web/node_modules bun.lockb packages/agent/bun.lockb packages/web/bun.lockb"
+    }
+  }
