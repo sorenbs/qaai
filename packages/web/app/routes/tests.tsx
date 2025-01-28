@@ -15,18 +15,14 @@ import {
   SidebarTrigger,
 } from "~/components/ui/sidebar"
 import { Outlet } from "react-router";
-import { getAllTests } from "~/lib/data";
+import { getAllTests, type TestType } from "~/lib/data";
 
-export type Test = { id: number; desciption: string; date: string; instruction: string; }
-
-export async function loader({ params }: Route.LoaderArgs): Promise<{ tests: Test[]; selectedTest: Test | undefined }> {
-  const tests = getAllTests()
+export async function loader({ params }: Route.LoaderArgs): Promise<{ tests: TestType[]; selectedTest: TestType | undefined }> {
+  const tests = await getAllTests()
 
   const selectedTest = tests.find((test) => test.id === Number(params.testId))
   return { tests, selectedTest }
 }
-
-
 
 export default function Component({
   params,
@@ -56,7 +52,7 @@ export default function Component({
               {loaderData.selectedTest && (<>
                 <BreadcrumbSeparator className="hidden md:block" />
                 <BreadcrumbItem>
-                  <BreadcrumbPage>{loaderData.selectedTest.desciption}</BreadcrumbPage>
+                  <BreadcrumbPage>{loaderData.selectedTest.description}</BreadcrumbPage>
                 </BreadcrumbItem>
               </>)}
             </BreadcrumbList>

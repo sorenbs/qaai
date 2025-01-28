@@ -5,13 +5,19 @@ import { cn } from "~/lib/utils";
 import type { Route } from "./+types/run";
 import { getRunEventsByRunId } from "~/lib/data";
 
+export async function loader({ params }: Route.LoaderArgs) {
+    const runEvents = await getRunEventsByRunId(Number(params.runId))
+
+    return runEvents
+  }
+
 export default function Run({
     params,
     loaderData
 }: Route.ComponentProps) {
     params.runId;
 
-    const runEvents = getRunEventsByRunId(Number(params.runId))
+    
 
     return (
         <Card className={cn("")}>
@@ -28,9 +34,9 @@ export default function Run({
 
 
                 <div>
-                    {runEvents.map((event, index) => (
+                    {loaderData.map((event, index) => (
                         <div
-                            key={event.time}
+                            key={event.relativeTimeInMs}
                             className="mb-4 grid grid-cols-[25px_1fr] items-start pb-4 last:mb-0 last:pb-0"
                         >
                             <span className="flex h-2 w-2 translate-y-1 rounded-full bg-sky-500" />
@@ -42,7 +48,7 @@ export default function Run({
                                     {event.description}
                                 </p>
                                 <p className="text-sm text-muted-foreground">
-                                    {event.time}
+                                    {event.relativeTimeInMs}
                                 </p>
                             </div>
                         </div>

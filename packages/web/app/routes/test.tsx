@@ -13,8 +13,8 @@ import { getRunsByTestId, getTestById } from "~/lib/data";
 
 export async function loader({ params }: Route.LoaderArgs) {
   const testId = Number(params.testId)
-  const selectedTest = getTestById(testId)
-  const runs = getRunsByTestId(testId)
+  const selectedTest = await getTestById(testId)
+  const runs = await getRunsByTestId(testId)
   
 
   return { selectedTest, runs }
@@ -28,13 +28,28 @@ export default function Component({
 }: Route.ComponentProps) {
   params.testId;
 
+  const rtf = new Intl.RelativeTimeFormat('en', { numeric: 'auto' });
+  function getRelativeTime(date: Date) {
+    const now = new Date();
+    const diffInMs = date.getTime() - now.getTime();
+    const diffInSecs = Math.floor(diffInMs / 1000);
+    const diffInMins = Math.floor(diffInSecs / 60);
+    const diffInHours = Math.floor(diffInMins / 60);
+    const diffInDays = Math.floor(diffInHours / 24);
+  
+    if (Math.abs(diffInDays) > 0) return rtf.format(diffInDays, 'day');
+    if (Math.abs(diffInHours) > 0) return rtf.format(diffInHours, 'hour');
+    if (Math.abs(diffInMins) > 0) return rtf.format(diffInMins, 'minute');
+    return rtf.format(diffInSecs, 'second');
+  }
+
   return (
 
 
     <div className="flex flex-1 flex-row">
       <div className="flex flex-none flex-col gap-4 p-4 w-[400px]">
         <div className=" gap-4 p-4">
-          <span className="font-medium line-clamp-2 whitespace-break-spaces">{loaderData.selectedTest?.desciption}</span>
+          <span className="font-medium line-clamp-2 whitespace-break-spaces">{loaderData.selectedTest?.description}</span>
           <span className="line-clamp-3 whitespace-break-spaces text-xs">
             {loaderData.selectedTest?.instruction}
           </span>
@@ -55,9 +70,9 @@ export default function Component({
               {loaderData.runs.map((run) => (
 
                 <TableRow key={run.id}>
-                  <TableCell className="font-medium"><NavLink to={`/tests/${run.testId}/run/${run.id}`} end>Today</NavLink></TableCell>
-                  <TableCell>✅ Success</TableCell>
-                  <TableCell>1:22</TableCell>
+                  <TableCell className="font-medium"><NavLink to={`/tests/${run.testId}/run/${run.id}`} end>{getRelativeTime(run.date)}</NavLink></TableCell>
+                  <TableCell>{run.status}</TableCell>
+                  <TableCell>{run.durationInSeconds}</TableCell>
                 </TableRow>
               ))}
 

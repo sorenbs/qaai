@@ -133,7 +133,7 @@ export function AppSidebar(props: { tests: Test[] }) {
                   className="flex flex-col items-start gap-2 whitespace-nowrap border-b p-4 text-sm leading-tight last:border-b-0 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
                 >
 
-                  <span className="font-medium line-clamp-2 w-[260px] whitespace-break-spaces">{test.desciption}</span>
+                  <span className="font-medium line-clamp-2 w-[260px] whitespace-break-spaces">{test.description}</span>
                   <span className="line-clamp-3 w-[260px] whitespace-break-spaces text-xs">
                     {test.instruction}
                   </span>
