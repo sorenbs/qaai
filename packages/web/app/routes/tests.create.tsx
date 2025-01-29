@@ -1,5 +1,4 @@
-import type { ActionFunctionArgs } from "@remix-run/node";
-import { redirect } from "@remix-run/node";
+import { redirect, type ActionFunctionArgs } from "react-router";
 import { createTest } from "~/lib/data";
 
 export const action = async ({ request }: ActionFunctionArgs) => {

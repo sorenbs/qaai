@@ -17,7 +17,7 @@ import {
   useSidebar,
 } from "~/components/ui/sidebar"
 import { NavLink } from "react-router"
-import type { Test } from "../routes/tests"
+import type { Test } from "@prisma/client"
 
 // This is sample data
 const data = {
