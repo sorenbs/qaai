@@ -3,6 +3,7 @@ import { type RouteConfig, index, layout, prefix, route } from "@react-router/de
 export default [
 
     route("tests/", "routes/tests.tsx", [
+        route("create", "routes/tests.create.tsx"),
         route(":testId", "routes/test.tsx", [
             route("run/:runId", "routes/run.tsx"),
         ])

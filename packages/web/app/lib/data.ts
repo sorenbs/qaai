@@ -25,6 +25,15 @@ export function getRunsByTestId(testId: number) {
 }
 
 export async function getRunEventsByRunId(runId: number) {
-
     return await prisma.runEvent.findMany({ where: { runId: runId } })
+}
+
+export async function createTest(description: string, instruction: string) {
+    return await prisma.test.create({
+        data: {
+            description,
+            instruction,
+            date: new Date()
+        }
+    });
 }

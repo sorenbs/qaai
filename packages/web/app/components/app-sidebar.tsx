@@ -1,5 +1,6 @@
 import * as React from "react"
-import { FlaskConical, LayoutDashboard, MonitorCheck } from "lucide-react"
+import { FlaskConical, LayoutDashboard, MonitorCheck, Plus } from "lucide-react"
+import { AddTestDialog } from "./add-test-dialog"
 
 import { NavUser } from "~/components/nav-user"
 import {
@@ -103,6 +104,35 @@ export function AppSidebar(props: { tests: Test[] }) {
                     </NavLink>
                   </SidebarMenuItem>
                 ))}
+                {data.navMain.map((item) => (
+                  <SidebarMenuItem key={item.title}>
+                    <NavLink to={item.url} end>
+                      {({ isActive }) => (
+                        <SidebarMenuButton
+                          tooltip={{
+                            children: item.title,
+                            hidden: false,
+                          }}
+                          isActive={isActive}
+                          className="px-2.5 md:px-2"
+                        >
+                          <item.icon />
+                          <span>{item.title}</span>
+                        </SidebarMenuButton>
+                      )}
+                    </NavLink>
+                  </SidebarMenuItem>
+                ))}
+                <SidebarMenuItem>
+                  <SidebarMenuButton
+                    tooltip="Add Test"
+                    size="sm"
+                    className="mt-2"
+                    asChild
+                  >
+                    <AddTestDialog />
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
               </SidebarMenu>
             </SidebarGroupContent>
           </SidebarGroup>
