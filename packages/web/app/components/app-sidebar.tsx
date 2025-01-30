@@ -1,6 +1,5 @@
 import * as React from "react"
 import { FlaskConical, LayoutDashboard, MonitorCheck, Plus } from "lucide-react"
-import { AddTestDialog } from "./add-test-dialog"
 
 import { NavUser } from "~/components/nav-user"
 import {
@@ -14,7 +13,6 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  useSidebar,
 } from "~/components/ui/sidebar"
 import { NavLink } from "react-router"
 import type { Test } from "@prisma/client"
@@ -27,6 +25,12 @@ const data = {
     avatar: "/favicon.ico",
   },
   navMain: [
+    {
+      title: "Create new test",
+      url: "/tests/create",
+      icon: Plus,
+      isActive: false,
+    },
     {
       title: "Tests",
       url: "/tests",
@@ -47,9 +51,7 @@ export function AppSidebar(props: { tests: Test[] }) {
   // Note: I'm using state to show active item.
   // IRL you should use the url/router.
   const [activeItem, setActiveItem] = React.useState(data.navMain[0])
-  const [mails, setMails] = React.useState(props.tests)
-  const { setOpen } = useSidebar()
-
+  
   return (
     <Sidebar
       collapsible="icon"
@@ -100,39 +102,9 @@ export function AppSidebar(props: { tests: Test[] }) {
                           <span>{item.title}</span>
                         </SidebarMenuButton>
                       )}
-
                     </NavLink>
                   </SidebarMenuItem>
                 ))}
-                {data.navMain.map((item) => (
-                  <SidebarMenuItem key={item.title}>
-                    <NavLink to={item.url} end>
-                      {({ isActive }) => (
-                        <SidebarMenuButton
-                          tooltip={{
-                            children: item.title,
-                            hidden: false,
-                          }}
-                          isActive={isActive}
-                          className="px-2.5 md:px-2"
-                        >
-                          <item.icon />
-                          <span>{item.title}</span>
-                        </SidebarMenuButton>
-                      )}
-                    </NavLink>
-                  </SidebarMenuItem>
-                ))}
-                <SidebarMenuItem>
-                  <SidebarMenuButton
-                    tooltip="Add Test"
-                    size="sm"
-                    className="mt-2"
-                    asChild
-                  >
-                    <AddTestDialog />
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
               </SidebarMenu>
             </SidebarGroupContent>
           </SidebarGroup>
@@ -156,7 +128,7 @@ export function AppSidebar(props: { tests: Test[] }) {
         <SidebarContent>
           <SidebarGroup className="px-0">
             <SidebarGroupContent>
-              {mails.map((test) => (
+              {props.tests.map((test) => (
                 <a
                   href={`/tests/${test.id}`}
                   key={test.id}

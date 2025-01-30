@@ -1,5 +1,8 @@
-import { redirect } from "@remix-run/node";
-import type { ActionFunctionArgs } from "@remix-run/node";
+import { Form, redirect, type ActionFunctionArgs } from "react-router";
+import { Button } from "~/components/ui/button";
+import { Input } from "~/components/ui/input";
+import { Label } from "~/components/ui/label";
+import { Textarea } from "~/components/ui/textarea";
 import { createTest } from "~/lib/data";
 
 export const action = async ({ request }: ActionFunctionArgs) => {
@@ -10,6 +13,41 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     formData.get("instruction") as string
   );
 
-  // Server-side redirect to the new test's URL
   return redirect(`/tests/${test.id}`); 
 };
+
+
+
+export default function Component() {
+
+  return (
+        <Form method="post" action="/tests/create" className="max-w-xl">
+          <h1>Create New Test</h1>
+          <div className="grid gap-4 py-4">
+            <div className="grid gap-2">
+              <Label htmlFor="description">Title</Label>
+              <Input
+                id="description"
+                name="description"
+                placeholder="Test title"
+                required
+              />
+            </div>
+            <div className="grid gap-2">
+              <Label htmlFor="instruction">Description</Label>
+              <Textarea
+              className="min-h-60"
+                id="instruction"
+                name="instruction"
+                placeholder="Test description"
+                
+                required
+              />
+            </div>
+            <Button type="submit">
+              Create Test
+            </Button>
+          </div>
+        </Form>
+  );
+}
