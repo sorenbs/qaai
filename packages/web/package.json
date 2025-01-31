@@ -9,8 +9,9 @@
     "typecheck": "react-router typegen && tsc"
   },
   "dependencies": {
-    "@prisma/client": "6.2.1",
+    "@prisma/client": "6.3.0",
     "@prisma/extension-accelerate": "^1.2.1",
+    "@prisma/extension-pulse": "^1.2.0",
     "@radix-ui/react-avatar": "^1.1.2",
     "@radix-ui/react-collapsible": "^1.1.2",
     "@radix-ui/react-dialog": "^1.1.5",
@@ -43,7 +44,7 @@
     "autoprefixer": "^10.4.20",
     "cross-env": "^7.0.3",
     "postcss": "^8.4.49",
-    "prisma": "6.2.1",
+    "prisma": "6.3.0",
     "tailwindcss": "^3.4.17",
     "typescript": "^5.7.2",
     "vite": "^5.4.11",

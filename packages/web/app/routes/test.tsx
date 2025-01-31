@@ -7,15 +7,28 @@ import {
   TableHeader,
   TableRow,
 } from "~/components/ui/table"
-import { NavLink, Outlet } from "react-router";
+import { Form, NavLink, Outlet, redirect } from "react-router";
 import { getRunsByTestId, getTestById } from "~/lib/data";
+import { Button } from "~/components/ui/button";
+import { Play } from "lucide-react";
+
+
+export async function action({
+  request,
+  params,
+}: Route.ActionArgs) {
+  
+  console.log("Starting new run of test!!")
+
+  return redirect(`/tests/${params.testId}/run/3`);
+}
 
 
 export async function loader({ params }: Route.LoaderArgs) {
   const testId = Number(params.testId)
   const selectedTest = await getTestById(testId)
   const runs = await getRunsByTestId(testId)
-  
+
 
   return { selectedTest, runs }
 }
@@ -36,7 +49,7 @@ export default function Component({
     const diffInMins = Math.floor(diffInSecs / 60);
     const diffInHours = Math.floor(diffInMins / 60);
     const diffInDays = Math.floor(diffInHours / 24);
-  
+
     if (Math.abs(diffInDays) > 0) return rtf.format(diffInDays, 'day');
     if (Math.abs(diffInHours) > 0) return rtf.format(diffInHours, 'hour');
     if (Math.abs(diffInMins) > 0) return rtf.format(diffInMins, 'minute');
@@ -55,7 +68,15 @@ export default function Component({
           </span>
         </div>
         <div className="flex flex-1 flex-col gap-4 p-4">
-          Runs
+
+
+        <Form method="post">
+          <Button type="submit" variant={"secondary"}>
+            <Play /> Start Test
+          </Button>
+          </Form>
+
+          <h1 className="text-lg font-medium">Runs</h1>
 
           <Table>
             <TableHeader>
